@@ -1,0 +1,20 @@
+git reset origin/mainvenv/
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+db.sqlite3
+*.sqlite3
+/media/
+/static/
+staticfiles/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+.env
+.coverage
+htmlcov/
+.pytest_cache/

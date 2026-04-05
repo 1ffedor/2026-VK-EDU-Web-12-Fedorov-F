@@ -1,0 +1,16 @@
+{% load static %}
+<header class="site-header bg-white py-2 border-bottom sticky-top">
+    <div class="container d-flex flex-wrap align-items-center justify-content-between gap-2">
+        <a href="{% url 'index' %}" class="logo text-decoration-none fs-4 fw-bold text-dark shrink-0">В? О!</a>
+        <form class="search-form d-none d-md-flex flex-grow-1 mx-md-4" action="{% url 'index' %}" method="get">
+            <input class="form-control rounded-pill" type="search" name="q" placeholder="Искать вопрос..." aria-label="Поиск">
+        </form>
+        <div class="user-block d-flex align-items-center gap-3">
+            <a href="{% url 'profile' %}" class="d-flex align-items-center gap-2 text-decoration-none text-dark">
+                <img src="{% static 'img/avatar-default.svg' %}" alt="{{ header_nickname|default:'Федор' }}" class="author-avatar rounded-circle" width="36" height="36">
+                <span class="fw-medium">{{ header_nickname|default:'Федор' }}</span>
+            </a>
+            <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Выйти</a>
+        </div>
+    </div>
+</header>

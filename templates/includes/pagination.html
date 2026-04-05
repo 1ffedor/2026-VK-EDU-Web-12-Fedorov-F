@@ -1,0 +1,37 @@
+{% if page.has_other_pages %}
+<nav class="mt-5 mb-5" aria-label="Пагинация">
+    <ul class="pagination justify-content-center">
+        {% if page.has_previous %}
+            <li class="page-item">
+                <a class="page-link px-3" href="?page={{ page.previous_page_number }}" aria-label="Предыдущая">
+                    <span aria-hidden="true">&larr;</span>
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link px-3" aria-label="Предыдущая"><span aria-hidden="true">&larr;</span></span>
+            </li>
+        {% endif %}
+        {% for num in page.paginator.page_range %}
+            <li class="page-item{% if num == page.number %} active{% endif %}">
+                {% if num == page.number %}
+                    <span class="page-link">{{ num }}</span>
+                {% else %}
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+        {% if page.has_next %}
+            <li class="page-item">
+                <a class="page-link px-3" href="?page={{ page.next_page_number }}" aria-label="Следующая">
+                    <span aria-hidden="true">&rarr;</span>
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link px-3" aria-label="Следующая"><span aria-hidden="true">&rarr;</span></span>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}

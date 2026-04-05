@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head_title %}В? О! — {{ question.title }}{% endblock %}
+{% block header %}{% include 'includes/header_compact.html' %}{% endblock %}
+{% block content %}
+    <article class="question-card d-flex mb-5">
+        <div class="question-votes pe-3 text-center align-self-start">
+            <button type="button" class="vote-btn">▲</button>
+            <div class="vote-count fw-bold fs-5 my-0">{{ question.votes }}</div>
+            <div class="small text-muted lh-1 mb-1">{{ question.votes_noun }}</div>
+            <button type="button" class="vote-btn">▼</button>
+        </div>
+        <div class="question-body flex-grow-1">
+            <h1 class="h4 fw-bold mb-3">{{ question.title }}</h1>
+            <p class="mb-3">{{ question.text }}</p>
+            <p class="small text-muted mb-2">{{ question.views_label }}{% if question.author_rep %} · {{ question.author_rep }}{% endif %} · {{ question.time_ago }}</p>
+            <div class="question-tags d-flex gap-2">
+                {% for t in question.tags %}
+                    <a href="{% url 'tag' tag=t %}" class="tag-badge">{{ t }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </article>
+    <hr class="my-4">
+    <div class="answers-list">
+        <h2 class="h5 fw-bold mb-4">{{ answers_heading }}</h2>
+        {% for answer in answers %}
+            <div class="answer-card d-flex mb-4 p-3 border-start border-2 {% if answer.is_correct %}border-success{% else %}border-secondary{% endif %} shadow-sm rounded bg-white">
+                <div class="question-votes pe-3 text-center">
+                    <button type="button" class="vote-btn">▲</button>
+                    <div class="vote-count fw-bold my-1">{{ answer.votes }}</div>
+                    <button type="button" class="vote-btn">▼</button>
+                </div>
+                <div class="flex-grow-1">
+                    <p class="mb-2">{{ answer.text }}</p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        {% if answer.is_correct %}
+                            <span class="form-check-label small text-success">Правильный ответ</span>
+                        {% else %}
+                            <span></span>
+                        {% endif %}
+                        <span class="small text-muted">ответил {{ answer.author }} {{ answer.time_ago }}</span>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted">Ответов пока нет.</p>
+        {% endfor %}
+    </div>
+    <div class="mt-5">
+        <h3 class="h5 fw-bold mb-3">Ваш ответ</h3>
+        <form method="get" action="">
+            <textarea class="form-control mb-3" rows="6" placeholder="Введите ответ..."></textarea>
+            <button type="submit" class="btn btn-custom-primary rounded-pill px-4 shadow-sm">Опубликовать</button>
+        </form>
+    </div>
+    <p class="mt-4"><a href="{% url 'index' %}" class="text-decoration-none">← К списку вопросов</a></p>
+{% endblock %}

@@ -1,0 +1,16 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - media_data:/app/media
+    environment:
+      SECRET_KEY: django-insecure-docker-dev-only
+      DEBUG: "True"
+      ALLOWED_HOSTS: localhost,127.0.0.1,0.0.0.0,web
+    command: python manage.py runserver 0.0.0.0:8000
+
+volumes:
+  media_data:

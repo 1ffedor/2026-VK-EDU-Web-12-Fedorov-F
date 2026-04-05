@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block head_title %}В? О! — Регистрация{% endblock %}
+{% block header %}{% include 'includes/header_auth.html' %}{% endblock %}
+{% block main %}
+<main class="site-main py-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="form-card p-4 border rounded bg-white shadow-sm">
+                    <h2 class="h4 fw-bold mb-4">Создать аккаунт</h2>
+                    <form method="get" action="" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Логин</label>
+                            <input type="text" class="form-control rounded-pill" name="login" autocomplete="username">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Email</label>
+                            <input type="email" class="form-control rounded-pill" name="email" autocomplete="email">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Никнейм</label>
+                            <input type="text" class="form-control rounded-pill" name="nickname">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Пароль</label>
+                            <input type="password" class="form-control rounded-pill" name="password" autocomplete="new-password">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label small fw-bold">Аватар</label>
+                            <input type="file" class="form-control form-control-sm" name="avatar" accept="image/*">
+                        </div>
+                        <button type="submit" class="btn btn-custom-primary rounded-pill w-100 fw-bold shadow-sm">Зарегистрироваться</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+{% block footer %}{% endblock %}
