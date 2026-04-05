@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>В? О! - Все вопросы</title>
+    
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <header class="site-header bg-white py-2 border-bottom sticky-top">
+        <div class="container d-flex flex-wrap align-items-center justify-content-between gap-2">
+            <a href="index.html" class="logo text-decoration-none fs-4 fw-bold text-dark shrink-0">В? О!</a>
+
+            <form class="search-form d-none d-md-flex flex-grow-1 mx-md-4" action="index.html" method="get">
+                <input class="form-control rounded-pill" type="search" placeholder="Искать вопрос..." aria-label="Поиск">
+            </form>
+
+            <div class="user-block d-flex align-items-center gap-3">
+                <a href="profile.html" class="d-flex align-items-center gap-2 text-decoration-none text-dark">
+                    <img src="static/img/avatar-default.png" alt="Федор" class="author-avatar rounded-circle" width="36" height="36">
+                    <span class="fw-medium">Федор</span>
+                </a>
+                <a href="logout.html" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Выйти</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="site-main py-4">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-8">
+                    </div>
+
+                <aside class="col-lg-4 sidebar pl-lg-4">
+                    <div class="sidebar-block mb-4">
+                        <h4 class="h5 mb-3">Читают сейчас</h4>
+                        <ul class="list-unstyled mb-0 d-flex flex-column gap-3">
+                            <li>
+                                <a href="#" class="text-decoration-none text-dark d-block fw-medium hover-primary">Как исправить ошибку CORS?</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-block mb-4">
+                        <h4 class="h5 mb-3">Популярные теги</h4>
+                        <div class="tags-list d-flex flex-wrap gap-2">
+                            <a href="#" class="tag-badge">python</a>
+                            <a href="#" class="tag-badge">django</a>
+                        </div>
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-top py-4 mt-auto">
+        <div class="container text-center text-muted">
+            <p class="mb-0">&copy; 2026 Q&A Platform. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script src="static/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вопрос? Ответ! - Все вопросы</title>
+    <!--стили-->  
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">  
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <header class="site-header bg-white py-2 border-bottom sticky-top">
+        <div class="container d-flex flex-wrap align-items-center justify-content-between gap-2">
+            <a href="index.html" class="logo text-decoration-none fs-4 fw-bold text-dark shrink-0">В? О!</a>
+
+            <form class="search-form d-none d-md-flex flex-grow-1 mx-md-4" action="index.html" method="get">
+                <input class="form-control rounded-pill" type="search" placeholder="Искать вопрос..." aria-label="Поиск">
+            </form>
+
+            <div class="user-block d-flex align-items-center gap-3">
+                <a href="profile.html" class="d-flex align-items-center gap-2 text-decoration-none text-dark">
+                    <img src="static/img/avatar-default.png" alt="Федор" class="author-avatar rounded-circle" width="36" height="36">
+                    <span class="fw-medium">Федор</span>
+                </a>
+                <a href="logout.html" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Выйти</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="site-main py-4">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-8">
+                    
+                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+                        <ul class="nav nav-pills gap-2">
+                            <li class="nav-item">
+                                <a class="nav-link nav-custom-pill active rounded-pill px-3 py-2 fw-medium" aria-current="page" href="#">Горячее</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-custom-pill rounded-pill px-3 py-2 fw-medium" href="#">Новое</a>
+                            </li>
+                        </ul>
+                        
+                        <a href="ask.html" class="btn btn-custom-action rounded-pill px-4 py-2 fw-bold shadow-sm d-flex align-items-center gap-2">
+                            Задать вопрос
+                        </a>
+                    </div>
+
+                    <article class="question-card d-flex mb-4">
+                        <div class="question-votes pe-3 text-center">
+                            <button class="vote-btn vote-up p-0" title="Лайк">▲</button>
+                            <div class="vote-count fw-bold fs-5 my-1">1</div>
+                            <button class="vote-btn vote-down p-0" title="Дизлайк">▼</button>
+                        </div>
+                        
+                        <div class="question-body flex-grow-1">
+                            <h3 class="h5 mb-2">
+                                <a href="question.html" class="text-decoration-none text-dark fw-bold">Почему Stream.max() возвращает Optional и как получить Stream&lt;MyClass&gt;?</a>
+                            </h3>
+                            <p class="text-muted mb-2">
+                                Работаю с Java Streams. При вызове метода max() получаю Optional, хотя ожидаю сам объект или стрим. Как правильно обработать этот момент и извлечь значение?
+                            </p>
+                            
+                            <div class="d-flex flex-wrap justify-content-between align-items-end mt-3 gap-3">
+                                <div class="question-tags d-flex gap-2">
+                                    <a href="tag.html" class="tag-badge">java</a>
+                                    <a href="tag.html" class="tag-badge">java-stream</a>
+                                    <a href="tag.html" class="tag-badge">optional</a>
+                                </div>
+                                
+                                <div class="d-flex align-items-center gap-4">
+                                    <div class="answers-count text-muted small d-flex align-items-center gap-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M2.678 11.894a1 1 0 0 1 .287.801 11 11 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8 8 0 0 0 8 14c3.996 0 7-2.807 7-6s-3.004-6-7-6-7 2.808-7 6c0 1.468.617 2.83 1.678 3.894m-.493 3.905a22 22 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a10 10 0 0 0 .244-.637l.003-.01c.248-.72.364-1.365.322-1.996B1.71 11.455 1 10.01 1 8c0-3.866 3.134-7 7-7s7 3.134 7 7-3.134 7-7 7a9 9 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105"/>
+                                        </svg>
+                                        <span>2 ответа</span>
+                                    </div>
+                                    <div class="question-author d-flex align-items-center gap-2">
+                                        <img src="static/img/avatar-default.png" alt="Author" class="author-avatar rounded-circle">
+                                        <div class="small">
+                                            <a href="profile.html" class="text-decoration-none fw-medium">Nowhere Man</a>
+                                            <div class="text-muted" style="font-size: 0.8em;">52 минуты назад</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="question-card d-flex mb-4">
+                        <div class="question-votes pe-3 text-center">
+                            <button class="vote-btn vote-up p-0" title="Лайк">▲</button>
+                            <div class="vote-count fw-bold fs-5 my-1">6</div>
+                            <button class="vote-btn vote-down p-0" title="Дизлайк">▼</button>
+                        </div>
+                        
+                        <div class="question-body flex-grow-1">
+                            <h3 class="h5 mb-2">
+                                <a href="question.html" class="text-decoration-none text-dark fw-bold">Python: 'charmap' codec can't decode byte 0x98</a>
+                            </h3>
+                            <p class="text-muted mb-2">
+                                Пытаюсь запустить скрипт в консоли Windows, но регулярно скрипт падает с ошибкой UnicodeDecodeError. Как правильно настроить кодировку при чтении текстового файла?
+                            </p>
+                            
+                            <div class="d-flex flex-wrap justify-content-between align-items-end mt-3 gap-3">
+                                <div class="question-tags d-flex gap-2">
+                                    <a href="tag.html" class="tag-badge">python</a>
+                                    <a href="tag.html" class="tag-badge">unicode</a>
+                                </div>
+                                
+                                <div class="d-flex align-items-center gap-4">
+                                    <div class="answers-count text-muted small d-flex align-items-center gap-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M2.678 11.894a1 1 0 0 1 .287.801 11 11 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8 8 0 0 0 8 14c3.996 0 7-2.807 7-6s-3.004-6-7-6-7 2.808-7 6c0 1.468.617 2.83 1.678 3.894m-.493 3.905a22 22 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a10 10 0 0 0 .244-.637l.003-.01c.248-.72.364-1.365.322-1.996B1.71 11.455 1 10.01 1 8c0-3.866 3.134-7 7-7s7 3.134 7 7-3.134 7-7 7a9 9 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105"/>
+                                        </svg>
+                                        <span class="text fw-medium">3 ответа</span>
+                                    </div>
+                                    <div class="question-author d-flex align-items-center gap-2">
+                                        <img src="static/img/avatar-default.png" alt="Author" class="author-avatar rounded-circle">
+                                        <div class="small">
+                                            <a href="profile.html" class="text-decoration-none fw-medium">Вадим</a>
+                                            <div class="text-muted" style="font-size: 0.8em;">7 часов назад</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="question-card d-flex mb-4">
+                        <div class="question-votes pe-3 text-center">
+                            <button class="vote-btn vote-up p-0" title="Лайк">▲</button>
+                            <div class="vote-count fw-bold fs-5 my-1">2</div>
+                            <button class="vote-btn vote-down p-0" title="Дизлайк">▼</button>
+                        </div>
+                        
+                        <div class="question-body flex-grow-1">
+                            <h3 class="h5 mb-2">
+                                <a href="question.html" class="text-decoration-none text-dark fw-bold">Как в Rider настроить переносы длинных строк автоматически?</a>
+                            </h3>
+                            <p class="text-muted mb-2">
+                                Длинные строки кода уходят за пределы экрана, приходится постоянно скроллить по горизонтали. Подскажите, где в настройках JetBrains Rider включить soft wraps для всех файлов?
+                            </p>
+                            
+                            <div class="d-flex flex-wrap justify-content-between align-items-end mt-3 gap-3">
+                                <div class="question-tags d-flex gap-2">
+                                    <a href="tag.html" class="tag-badge">ide</a>
+                                    <a href="tag.html" class="tag-badge">jetbrains</a>
+                                    <a href="tag.html" class="tag-badge">rider</a>
+                                </div>
+                                
+                                <div class="d-flex align-items-center gap-4">
+                                    <div class="answers-count text-muted small d-flex align-items-center gap-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M2.678 11.894a1 1 0 0 1 .287.801 11 11 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8 8 0 0 0 8 14c3.996 0 7-2.807 7-6s-3.004-6-7-6-7 2.808-7 6c0 1.468.617 2.83 1.678 3.894m-.493 3.905a22 22 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a10 10 0 0 0 .244-.637l.003-.01c.248-.72.364-1.365.322-1.996B1.71 11.455 1 10.01 1 8c0-3.866 3.134-7 7-7s7 3.134 7 7-3.134 7-7 7a9 9 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105"/>
+                                        </svg>
+                                        <span>1 ответ</span>
+                                    </div>
+                                    <div class="question-author d-flex align-items-center gap-2">
+                                        <img src="static/img/avatar-default.png" alt="Author" class="author-avatar rounded-circle">
+                                        <div class="small">
+                                            <a href="profile.html" class="text-decoration-none fw-medium">0xdb</a>
+                                            <div class="text-muted" style="font-size: 0.8em;">3 часа назад</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <nav class="mt-5 mb-5" aria-label="Пагинация">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link px-3" href="#" aria-label="Предыдущая">
+                                    <span aria-hidden="true">&larr;</span>
+                                </a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link px-3" href="#" aria-label="Следующая">
+                                    <span aria-hidden="true">&rarr;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <aside class="col-lg-4 sidebar pl-lg-4">
+                    
+                    <div class="sidebar-block mb-4">
+                        <h4 class="h5 d-flex align-items-center gap-2 mb-3">
+                            Читают сейчас
+                        </h4>
+                        <ul class="list-unstyled mb-0 d-flex flex-column gap-3">
+                            <li>
+                                <a href="question.html" class="text-decoration-none text-dark d-block fw-medium lh-sm hover-primary">
+                                    Как исправить ошибку CORS при локальной разработке с React и Node.js?
+                                </a>
+                                <div class="small text-muted mt-1">18 ответов • 4.2k просмотров</div>
+                            </li>
+                            <li>
+                                <a href="question.html" class="text-decoration-none text-dark d-block fw-medium lh-sm hover-primary">
+                                    Что лучше выбрать в 2026 году: Vue 3 или React? Плюсы и минусы.
+                                </a>
+                                <div class="small text-muted mt-1">45 ответов • 8.1k просмотров</div>
+                            </li>
+                            <li>
+                                <a href="question.html" class="text-decoration-none text-dark d-block fw-medium lh-sm hover-primary">
+                                    Настройка Docker-compose для связки Postgres + Redis + FastAPI
+                                </a>
+                                <div class="small text-muted mt-1">6 ответов • 980 просмотров</div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-block mb-4">
+                        <h4 class="h5 mb-3">Популярные теги</h4>
+                        <div class="tags-list d-flex flex-wrap gap-2">
+                            <a href="tag.html" class="tag-badge">python</a>
+                            <a href="tag.html" class="tag-badge">django</a>
+                            <a href="tag.html" class="tag-badge">bootstrap</a>
+                            <a href="tag.html" class="tag-badge">css</a>
+                            <a href="tag.html" class="tag-badge">javascript</a>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-block mb-4">
+                        <h4 class="h5 mb-3">Топ пользователи</h4>
+                        <ul class="list-unstyled mb-0">
+                            <li class="d-flex align-items-center gap-3 mb-3">
+                                <img src="static/img/avatar-default.png" alt="User" class="member-avatar rounded-circle">
+                                <div>
+                                    <a href="profile.html" class="text-decoration-none fw-medium text-dark">Ivan_Dev</a>
+                                    <div class="small text-muted">150 ★</div>
+                                </div>
+                            </li>
+                            <li class="d-flex align-items-center gap-3 mb-2">
+                                <img src="static/img/avatar-default.png" alt="User" class="member-avatar rounded-circle">
+                                <div>
+                                    <a href="profile.html" class="text-decoration-none fw-medium text-dark">senior</a>
+                                    <div class="small text-muted">98 ★</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-top py-4 mt-auto">
+        <div class="container text-center text-muted">
+            <p class="mb-0">&copy; 2026 Вопрос? Ответ!</p>
+        </div>
+    </footer>
+
+    <script src="static/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
