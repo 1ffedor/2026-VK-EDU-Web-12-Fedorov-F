@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block head_title %}В? О!{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+{% block header %}{% include 'includes/header_full.html' %}{% endblock %}
+{% block main %}
+<main class="site-main py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                {% block content %}{% endblock %}
+            </div>
+            {% include 'includes/sidebar.html' %}
+        </div>
+    </div>
+</main>
+{% endblock %}
+{% block footer %}
+<footer class="bg-white border-top py-4 mt-auto">
+    <div class="container text-center text-muted">
+        <p class="mb-0">&copy; 2026 Вопрос? Ответ!</p>
+    </div>
+</footer>
+{% endblock %}
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

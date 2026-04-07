@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block head_title %}{{ page_title }} — В? О!{% endblock %}
+{% block content %}
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <ul class="nav nav-pills gap-2">
+            <li class="nav-item">
+                <a class="nav-link nav-custom-pill rounded-pill px-3 py-2 fw-medium{% if list_tab == 'hot' %} active{% endif %}" {% if list_tab == 'hot' %}aria-current="page"{% endif %} href="{% url 'hot' %}">Горячее</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link nav-custom-pill rounded-pill px-3 py-2 fw-medium{% if list_tab == 'new' %} active{% endif %}" {% if list_tab == 'new' %}aria-current="page"{% endif %} href="{% url 'index' %}">Новое</a>
+            </li>
+        </ul>
+        <a href="{% url 'ask' %}" class="btn btn-custom-action rounded-pill px-4 py-2 fw-bold shadow-sm d-flex align-items-center gap-2">
+            Задать вопрос
+        </a>
+    </div>
+    {% if list_tab == 'tag' %}
+        <p class="text-muted mb-4">Вопросы по тегу: <strong>{{ tag }}</strong></p>
+    {% endif %}
+    {% for question in page.object_list %}
+        {% include 'questions/includes/question_card.html' %}
+    {% empty %}
+        <p class="text-muted">Вопросов пока нет.</p>
+    {% endfor %}
+    {% include 'includes/pagination.html' %}
+{% endblock %}

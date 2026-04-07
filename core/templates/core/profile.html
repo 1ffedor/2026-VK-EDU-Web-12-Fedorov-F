@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head_title %}В? О! — Профиль{% endblock %}
+{% block header %}{% include 'includes/header_compact.html' %}{% endblock %}
+{% block main %}
+<main class="site-main py-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8">
+                <h1 class="h3 fw-bold mb-4 text-center">Настройки профиля</h1>
+                <div class="form-card p-4 border rounded bg-white shadow-sm">
+                    <form class="row" method="get" action="" enctype="multipart/form-data">
+                        <div class="col-md-4 text-center mb-4">
+                            <img src="{% static 'img/avatar-default.svg' %}" alt="" class="rounded-circle border mb-3" style="width: 140px; height: 140px; object-fit: cover;">
+                            <input type="file" class="form-control form-control-sm" name="avatar" accept="image/*">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Логин</label>
+                                <input type="text" class="form-control rounded-pill bg-light" name="login" value="{{ profile_stub.login }}" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Email</label>
+                                <input type="email" class="form-control rounded-pill" name="email" value="{{ profile_stub.email }}">
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label small fw-bold">Никнейм</label>
+                                <input type="text" class="form-control rounded-pill" name="nickname" value="{{ profile_stub.nickname }}">
+                            </div>
+                            <button type="submit" class="btn btn-custom-primary rounded-pill px-5 fw-bold shadow-sm">Сохранить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+{% block footer %}{% endblock %}

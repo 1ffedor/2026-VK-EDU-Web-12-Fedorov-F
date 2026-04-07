@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block head_title %}В? О! — Задать вопрос{% endblock %}
+{% block main %}
+<main class="site-main py-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h1 class="h3 fw-bold mb-4 text-center">Новый вопрос</h1>
+                <div class="form-card p-4 border rounded bg-white shadow-sm">
+                    <form method="get" action="">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Заголовок</label>
+                            <input type="text" class="form-control rounded-pill" name="title" placeholder="Коротко о сути вопроса">
+                            <div class="form-text small">Например: «Как подключить Bootstarp?»</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Текст вопроса</label>
+                            <textarea class="form-control" rows="8" name="text" placeholder="Опишите проблему максимально подробно..."></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Теги</label>
+                            <input type="text" class="form-control rounded-pill" name="tags" placeholder="css, html, python">
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-custom-action rounded-pill px-5 fw-bold shadow-sm">
+                                    Опубликовать
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+{% block footer %}{% endblock %}

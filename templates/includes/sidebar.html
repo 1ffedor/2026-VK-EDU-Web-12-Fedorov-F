@@ -1,0 +1,57 @@
+{% load static %}
+<aside class="col-lg-4 sidebar pl-lg-4">
+    <div class="sidebar-block mb-4">
+        <h4 class="h5 d-flex align-items-center gap-2 mb-3">Читают сейчас</h4>
+        <ul class="list-unstyled mb-0 d-flex flex-column gap-3">
+            <li>
+                <a href="{% url 'question_detail' pk=1 %}" class="text-decoration-none text-dark d-block fw-medium lh-sm hover-primary">
+                    Как исправить ошибку CORS при локальной разработке с React и Node.js?
+                </a>
+                <div class="small text-muted mt-1">18 ответов • 4.2k просмотров</div>
+            </li>
+            <li>
+                <a href="{% url 'question_detail' pk=2 %}" class="text-decoration-none text-dark d-block fw-medium lh-sm hover-primary">
+                    Что лучше выбрать в 2026 году: Vue 3 или React? Плюсы и минусы.
+                </a>
+                <div class="small text-muted mt-1">45 ответов • 8.1k просмотров</div>
+            </li>
+            <li>
+                <a href="{% url 'question_detail' pk=3 %}" class="text-decoration-none text-dark d-block fw-medium lh-sm hover-primary">
+                    Настройка Docker-compose для связки Postgres + Redis + FastAPI
+                </a>
+                <div class="small text-muted mt-1">6 ответов • 980 просмотров</div>
+            </li>
+        </ul>
+    </div>
+    <div class="sidebar-block mb-4">
+        <h4 class="h5 mb-3">Популярные теги</h4>
+        <div class="tags-list d-flex flex-wrap gap-2">
+            <a href="{% url 'tag' tag='python' %}" class="tag-badge">python</a>
+            <a href="{% url 'tag' tag='php' %}" class="tag-badge">php</a>
+            <a href="{% url 'tag' tag='laravel' %}" class="tag-badge">laravel</a>
+            <a href="{% url 'tag' tag='aiogram' %}" class="tag-badge">aiogram</a>
+            <a href="{% url 'tag' tag='git' %}" class="tag-badge">git</a>
+            <a href="{% url 'tag' tag='django' %}" class="tag-badge">django</a>
+            <a href="{% url 'tag' tag='blablabla' %}" class="tag-badge">blablabla</a>
+        </div>
+    </div>
+    <div class="sidebar-block mb-4">
+        <h4 class="h5 mb-3">Топ пользователи</h4>
+        <ul class="list-unstyled mb-0">
+            <li class="d-flex align-items-center gap-3 mb-3">
+                <img src="{% static 'img/avatar-default.svg' %}" alt="User" class="member-avatar rounded-circle">
+                <div>
+                    <a href="{% url 'profile' %}" class="text-decoration-none fw-medium text-dark">Ivan_Dev</a>
+                    <div class="small text-muted">150 ★</div>
+                </div>
+            </li>
+            <li class="d-flex align-items-center gap-3 mb-2">
+                <img src="{% static 'img/avatar-default.svg' %}" alt="User" class="member-avatar rounded-circle">
+                <div>
+                    <a href="{% url 'profile' %}" class="text-decoration-none fw-medium text-dark">senior</a>
+                    <div class="small text-muted">98 ★</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</aside>
