@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>В? О! - Задать вопрос</title>
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <header class="site-header bg-white py-2 border-bottom sticky-top">
+        <div class="container d-flex flex-wrap align-items-center justify-content-between gap-2">
+            <a href="index.html" class="logo text-decoration-none fs-4 fw-bold text-dark shrink-0">В? О!</a>
+            <form class="search-form d-none d-md-flex flex-grow-1 mx-md-4">
+                <input class="form-control rounded-pill" type="search" placeholder="Искать вопрос...">
+            </form>
+            <div class="user-block d-flex align-items-center gap-3">
+                <a href="profile.html" class="d-flex align-items-center gap-2 text-decoration-none text-dark">
+                    <img src="static/img/avatar-default.png" alt="Федор" class="author-avatar rounded-circle" width="36" height="36">
+                    <span class="fw-medium">Федор</span>
+                </a>
+                <a href="login.html" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Выйти</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="site-main py-4">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h1 class="h3 fw-bold mb-4 text-center">Новый вопрос</h1>
+                    <div class="form-card p-4 border rounded bg-white shadow-sm">
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Заголовок</label>
+                                <input type="text" class="form-control rounded-pill" placeholder="Коротко о сути вопроса">
+                                <div class="form-text small">Например: «Как подключить Bootstarp?»</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Текст вопроса</label>
+                                <textarea class="form-control is-invalid" rows="8" placeholder="Опишите проблему максимально подробно..."></textarea>
+                                <div class="invalid-feedback">Пожалуйста, заполните это поле.</div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Теги</label>
+                                <input type="text" class="form-control rounded-pill" placeholder="css, html, python">
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-custom-action rounded-pill px-5 fw-bold shadow-sm">
+                                        Опубликовать
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

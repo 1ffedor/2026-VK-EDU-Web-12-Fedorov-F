@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>В? О! - Почему Stream.max() возвращает Optional?</title>
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <header class="site-header bg-white py-2 border-bottom sticky-top">
+        <div class="container d-flex flex-wrap align-items-center justify-content-between gap-2">
+            <a href="index.html" class="logo text-decoration-none fs-4 fw-bold text-dark shrink-0">В? О!</a>
+            <div class="user-block d-flex align-items-center gap-3">
+                <a href="profile.html" class="d-flex align-items-center gap-2 text-decoration-none text-dark">
+                    <img src="static/img/avatar-default.png" alt="Федор" class="author-avatar rounded-circle" width="36" height="36">
+                    <span class="fw-medium">Федор</span>
+                </a>
+                <a href="login.html" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Выйти</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="site-main py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <article class="question-card d-flex mb-5">
+                        <div class="question-votes pe-3 text-center">
+                            <button class="vote-btn">▲</button>
+                            <div class="vote-count fw-bold fs-5 my-1">42</div>
+                            <button class="vote-btn">▼</button>
+                        </div>
+                        <div class="question-body flex-grow-1">
+                            <h1 class="h4 fw-bold mb-3">Почему Stream.max() возвращает Optional и как получить Stream&lt;MyClass&gt;?</h1>
+                            <p class="mb-3">Работаю с Java Streams. При вызове метода max() получаю Optional, хотя ожидаю сам объект или стрим. Как правильно обработать этот момент?</p>
+                            <div class="question-tags d-flex gap-2">
+                                <a href="#" class="tag-badge">java</a>
+                                <a href="#" class="tag-badge">optional</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <hr class="my-4">
+
+                    <div class="answers-list">
+                        <h2 class="h5 fw-bold mb-4">1 Ответ</h2>
+                        
+                        <div class="answer-card d-flex mb-4 p-3 border-start border-2 border-success shadow-sm rounded bg-white">
+                            <div class="question-votes pe-3 text-center">
+                                <button class="vote-btn">▲</button>
+                                <div class="vote-count fw-bold my-1">15</div>
+                                <button class="vote-btn">▼</button>
+                            </div>
+                            <div class="flex-grow-1">
+                                <p class="mb-2">Optional используется, потому что стрим может быть пустым. Используйте `.orElseThrow()` если уверены в наличии данных.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <label class="form-check-label small text-success" for="correct1">Правильный ответ</label>
+                                    <span class="small text-muted">ответил senior 2 часа назад</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-5">
+                        <h3 class="h5 fw-bold mb-3">Ваш ответ</h3>
+                        <form>
+                            <textarea class="form-control mb-3" rows="6" placeholder="Введите ответ..."></textarea>
+                            <button type="submit" class="btn btn-custom-primary rounded-pill px-4 shadow-sm">Опубликовать</button>
+                        </form>
+                    </div>
+                </div>
+
+                <aside class="col-lg-4 sidebar ps-lg-4">
+                    <div class="sidebar-block mb-4">
+                        <h4 class="h5 mb-3">Популярные теги</h4>
+                        <div class="tags-list d-flex flex-wrap gap-2">
+                            <a href="#" class="tag-badge">python</a>
+                            <a href="#" class="tag-badge">django</a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
