@@ -5,10 +5,10 @@
 {% block content %}
     <article class="question-card d-flex mb-5">
         <div class="question-votes pe-3 text-center align-self-start">
-            <button type="button" class="vote-btn">▲</button>
+            <button type="button" class="vote-btn" {% if not request.user.is_authenticated %}disabled title="Войдите, чтобы голосовать"{% endif %}>▲</button>
             <div class="vote-count fw-bold fs-5 my-0">{{ question.votes }}</div>
             <div class="small text-muted lh-1 mb-1">{{ question.votes_noun }}</div>
-            <button type="button" class="vote-btn">▼</button>
+            <button type="button" class="vote-btn" {% if not request.user.is_authenticated %}disabled title="Войдите, чтобы голосовать"{% endif %}>▼</button>
         </div>
         <div class="question-body flex-grow-1">
             <h1 class="h4 fw-bold mb-3">{{ question.title }}</h1>
@@ -25,11 +25,11 @@
     <div class="answers-list">
         <h2 class="h5 fw-bold mb-4">{{ answers_page.paginator.count }} ответов</h2>
         {% for answer in answers_page.object_list %}
-            <div class="answer-card d-flex mb-4 p-3 border-start border-2 {% if answer.is_correct %}border-success{% else %}border-secondary{% endif %} shadow-sm rounded bg-white">
+            <div id="answer-{{ answer.pk }}" class="answer-card d-flex mb-4 p-3 border-start border-2 {% if answer.is_correct %}border-success{% else %}border-secondary{% endif %} shadow-sm rounded bg-white">
                 <div class="question-votes pe-3 text-center">
-                    <button type="button" class="vote-btn">▲</button>
+                    <button type="button" class="vote-btn" {% if not request.user.is_authenticated %}disabled title="Войдите, чтобы голосовать"{% endif %}>▲</button>
                     <div class="vote-count fw-bold my-1">{{ answer.votes }}</div>
-                    <button type="button" class="vote-btn">▼</button>
+                    <button type="button" class="vote-btn" {% if not request.user.is_authenticated %}disabled title="Войдите, чтобы голосовать"{% endif %}>▼</button>
                 </div>
                 <div class="flex-grow-1">
                     <p class="mb-2">{{ answer.text }}</p>
@@ -50,9 +50,18 @@
     {% include 'includes/pagination.html' with page=answers_page %}
     <div class="mt-5">
         <h3 class="h5 fw-bold mb-3">Ваш ответ</h3>
-        <form method="get" action="">
-            <textarea class="form-control mb-3" rows="6" placeholder="Введите ответ..."></textarea>
-            <button type="submit" class="btn btn-custom-primary rounded-pill px-4 shadow-sm">Опубликовать</button>
+        {% if answer_form.non_field_errors %}
+            <div class="alert alert-danger py-2 small mb-3">{{ answer_form.non_field_errors|join:', ' }}</div>
+        {% endif %}
+        <form method="post" action="">
+            {% csrf_token %}
+            {{ answer_form.text }}
+            {% if answer_form.text.errors %}<div class="text-danger small mt-1 mb-2">{{ answer_form.text.errors|join:', ' }}</div>{% endif %}
+            {% if request.user.is_authenticated %}
+                <button type="submit" class="btn btn-custom-primary rounded-pill px-4 shadow-sm">Опубликовать</button>
+            {% else %}
+                <a href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}" class="btn btn-custom-primary rounded-pill px-4 shadow-sm disabled" title="Войдите, чтобы добавить ответ" aria-disabled="true">Опубликовать</a>
+            {% endif %}
         </form>
     </div>
     <p class="mt-4"><a href="{% url 'index' %}" class="text-decoration-none">← К списку вопросов</a></p>

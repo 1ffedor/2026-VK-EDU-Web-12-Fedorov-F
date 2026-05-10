@@ -2,12 +2,27 @@
 <header class="site-header bg-white py-2 border-bottom sticky-top">
     <div class="container d-flex flex-wrap align-items-center justify-content-between gap-2">
         <a href="{% url 'index' %}" class="logo text-decoration-none fs-4 fw-bold text-dark shrink-0">В? О!</a>
-        <div class="user-block d-flex align-items-center gap-3">
-            <a href="{% url 'profile' %}" class="d-flex align-items-center gap-2 text-decoration-none text-dark">
-                <img src="{% static 'img/avatar-default.svg' %}" alt="{{ header_nickname|default:'Федор' }}" class="author-avatar rounded-circle" width="36" height="36">
-                <span class="fw-medium">{{ header_nickname|default:'Федор' }}</span>
-            </a>
-            <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Выйти</a>
-        </div>
+        {% if request.user.is_authenticated %}
+            <div class="user-block d-flex align-items-center gap-3">
+                <a href="{% url 'profile' %}" class="d-flex align-items-center gap-2 text-decoration-none text-dark">
+                    {% if request.user.profile.avatar %}
+                        <img src="{{ request.user.profile.avatar.url }}" alt="{{ request.user.username }}" class="author-avatar rounded-circle" width="36" height="36">
+                    {% else %}
+                        <img src="{% static 'img/avatar-default.svg' %}" alt="{{ request.user.username }}" class="author-avatar rounded-circle" width="36" height="36">
+                    {% endif %}
+                    <span class="fw-medium">{{ request.user.username }}</span>
+                </a>
+                <form method="post" action="{% url 'logout' %}" class="m-0">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                    <button type="submit" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Выйти</button>
+                </form>
+            </div>
+        {% else %}
+            <div class="d-flex align-items-center gap-2">
+                <a href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Войти</a>
+                <a href="{% url 'signup' %}" class="btn btn-custom-primary btn-sm rounded-pill px-3">Регистрация</a>
+            </div>
+        {% endif %}
     </div>
 </header>

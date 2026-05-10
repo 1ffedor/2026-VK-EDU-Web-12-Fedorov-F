@@ -7,19 +7,26 @@
             <div class="col-lg-8">
                 <h1 class="h3 fw-bold mb-4 text-center">Новый вопрос</h1>
                 <div class="form-card p-4 border rounded bg-white shadow-sm">
-                    <form method="get" action="">
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger py-2 small mb-3">{{ form.non_field_errors|join:', ' }}</div>
+                    {% endif %}
+                    <form method="post" action="">
+                        {% csrf_token %}
                         <div class="mb-3">
                             <label class="form-label fw-bold">Заголовок</label>
-                            <input type="text" class="form-control rounded-pill" name="title" placeholder="Коротко о сути вопроса">
+                            {{ form.title }}
+                            {% if form.title.errors %}<div class="text-danger small mt-1">{{ form.title.errors|join:', ' }}</div>{% endif %}
                             <div class="form-text small">Например: «Как подключить Bootstarp?»</div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-bold">Текст вопроса</label>
-                            <textarea class="form-control" rows="8" name="text" placeholder="Опишите проблему максимально подробно..."></textarea>
+                            {{ form.text }}
+                            {% if form.text.errors %}<div class="text-danger small mt-1">{{ form.text.errors|join:', ' }}</div>{% endif %}
                         </div>
                         <div class="mb-4">
                             <label class="form-label fw-bold">Теги</label>
-                            <input type="text" class="form-control rounded-pill" name="tags" placeholder="css, html, python">
+                            {{ form.tags }}
+                            {% if form.tags.errors %}<div class="text-danger small mt-1">{{ form.tags.errors|join:', ' }}</div>{% endif %}
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-auto">

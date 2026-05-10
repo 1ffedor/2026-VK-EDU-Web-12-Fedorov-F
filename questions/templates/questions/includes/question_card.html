@@ -1,10 +1,10 @@
 {% load static %}
 <article class="question-card d-flex mb-4">
     <div class="question-votes pe-3 text-center align-self-start">
-        <button type="button" class="vote-btn vote-up p-0" title="Лайк">▲</button>
+        <button type="button" class="vote-btn vote-up p-0" {% if not request.user.is_authenticated %}disabled title="Войдите, чтобы голосовать"{% else %}title="Лайк"{% endif %}>▲</button>
         <div class="vote-count fw-bold fs-5 my-0">{{ question.votes }}</div>
         <div class="small text-muted lh-1 mb-1">{{ question.votes_noun }}</div>
-        <button type="button" class="vote-btn vote-down p-0" title="Дизлайк">▼</button>
+        <button type="button" class="vote-btn vote-down p-0" {% if not request.user.is_authenticated %}disabled title="Войдите, чтобы голосовать"{% else %}title="Дизлайк"{% endif %}>▼</button>
     </div>
     <div class="question-body flex-grow-1">
         <h3 class="h5 mb-2">
