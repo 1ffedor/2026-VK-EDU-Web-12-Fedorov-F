@@ -9,23 +9,41 @@
             <div class="col-12 col-md-10 col-lg-8">
                 <h1 class="h3 fw-bold mb-4 text-center">Настройки профиля</h1>
                 <div class="form-card p-4 border rounded bg-white shadow-sm">
-                    <form class="row" method="get" action="" enctype="multipart/form-data">
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger py-2 small mb-3">{{ form.non_field_errors|join:', ' }}</div>
+                    {% endif %}
+                    <form class="row" method="post" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
                         <div class="col-md-4 text-center mb-4">
-                            <img src="{% static 'img/avatar-default.svg' %}" alt="" class="rounded-circle border mb-3" style="width: 140px; height: 140px; object-fit: cover;">
-                            <input type="file" class="form-control form-control-sm" name="avatar" accept="image/*">
+                            {% if request.user.profile.avatar %}
+                                <img src="{{ request.user.profile.avatar.url }}" alt="" class="rounded-circle border mb-3" style="width: 140px; height: 140px; object-fit: cover;">
+                            {% else %}
+                                <img src="{% static 'img/avatar-default.svg' %}" alt="" class="rounded-circle border mb-3" style="width: 140px; height: 140px; object-fit: cover;">
+                            {% endif %}
+                            {% if request.user.profile.avatar %}
+                                <div class="small text-muted mb-2 text-break">
+                                    текущий файл:
+                                    <a href="{{ request.user.profile.avatar.url }}" target="_blank" rel="noopener">{{ request.user.profile.avatar.name }}</a>
+                                </div>
+                            {% endif %}
+                            <input type="file" name="avatar" class="form-control form-control-sm" accept="image/*">
+                            {% if form.avatar.errors %}<div class="text-danger small mt-1">{{ form.avatar.errors|join:', ' }}</div>{% endif %}
                         </div>
                         <div class="col-md-8">
                             <div class="mb-3">
                                 <label class="form-label small fw-bold">Логин</label>
-                                <input type="text" class="form-control rounded-pill bg-light" name="login" value="{{ profile_stub.login }}" readonly>
+                                {{ form.username }}
+                                {% if form.username.errors %}<div class="text-danger small mt-1">{{ form.username.errors|join:', ' }}</div>{% endif %}
                             </div>
                             <div class="mb-3">
                                 <label class="form-label small fw-bold">Email</label>
-                                <input type="email" class="form-control rounded-pill" name="email" value="{{ profile_stub.email }}">
+                                {{ form.email }}
+                                {% if form.email.errors %}<div class="text-danger small mt-1">{{ form.email.errors|join:', ' }}</div>{% endif %}
                             </div>
                             <div class="mb-4">
                                 <label class="form-label small fw-bold">Никнейм</label>
-                                <input type="text" class="form-control rounded-pill" name="nickname" value="{{ profile_stub.nickname }}">
+                                {{ form.nickname }}
+                                {% if form.nickname.errors %}<div class="text-danger small mt-1">{{ form.nickname.errors|join:', ' }}</div>{% endif %}
                             </div>
                             <button type="submit" class="btn btn-custom-primary rounded-pill px-5 fw-bold shadow-sm">Сохранить</button>
                         </div>

@@ -8,26 +8,39 @@
             <div class="col-md-6">
                 <div class="form-card p-4 border rounded bg-white shadow-sm">
                     <h2 class="h4 fw-bold mb-4">Создать аккаунт</h2>
-                    <form method="get" action="" enctype="multipart/form-data">
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger py-2 small mb-3">
+                            {% for err in form.non_field_errors %}
+                                <div>{{ err }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <form method="post" action="">
+                        {% csrf_token %}
                         <div class="mb-3">
                             <label class="form-label small fw-bold">Логин</label>
-                            <input type="text" class="form-control rounded-pill" name="login" autocomplete="username">
+                            {{ form.username }}
+                            {% if form.username.errors %}<div class="text-danger small mt-1">{% for err in form.username.errors %}<div>{{ err }}</div>{% endfor %}</div>{% endif %}
                         </div>
                         <div class="mb-3">
                             <label class="form-label small fw-bold">Email</label>
-                            <input type="email" class="form-control rounded-pill" name="email" autocomplete="email">
+                            {{ form.email }}
+                            {% if form.email.errors %}<div class="text-danger small mt-1">{% for err in form.email.errors %}<div>{{ err }}</div>{% endfor %}</div>{% endif %}
                         </div>
                         <div class="mb-3">
-                            <label class="form-label small fw-bold">Никнейм</label>
-                            <input type="text" class="form-control rounded-pill" name="nickname">
+                            <label class="form-label small fw-bold">Имя</label>
+                            {{ form.first_name }}
+                            {% if form.first_name.errors %}<div class="text-danger small mt-1">{% for err in form.first_name.errors %}<div>{{ err }}</div>{% endfor %}</div>{% endif %}
                         </div>
                         <div class="mb-3">
                             <label class="form-label small fw-bold">Пароль</label>
-                            <input type="password" class="form-control rounded-pill" name="password" autocomplete="new-password">
+                            {{ form.password1 }}
+                            {% if form.password1.errors %}<div class="text-danger small mt-1">{% for err in form.password1.errors %}<div>{{ err }}</div>{% endfor %}</div>{% endif %}
                         </div>
                         <div class="mb-4">
-                            <label class="form-label small fw-bold">Аватар</label>
-                            <input type="file" class="form-control form-control-sm" name="avatar" accept="image/*">
+                            <label class="form-label small fw-bold">Повтор пароля</label>
+                            {{ form.password2 }}
+                            {% if form.password2.errors %}<div class="text-danger small mt-1">{% for err in form.password2.errors %}<div>{{ err }}</div>{% endfor %}</div>{% endif %}
                         </div>
                         <button type="submit" class="btn btn-custom-primary rounded-pill w-100 fw-bold shadow-sm">Зарегистрироваться</button>
                     </form>

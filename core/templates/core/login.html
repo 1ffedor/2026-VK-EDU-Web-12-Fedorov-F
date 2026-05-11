@@ -8,17 +8,21 @@
             <div class="col-md-5">
                 <div class="form-card p-4 border rounded bg-white shadow-sm">
                     <h2 class="h4 fw-bold mb-4 text-center">Авторизация</h2>
-                    {% if show_login_error %}
-                    <div class="alert alert-danger py-2 small mb-3 text-center">Неверный логин или пароль</div>
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger py-2 small mb-3 text-center">{{ form.non_field_errors|join:', ' }}</div>
                     {% endif %}
-                    <form method="get" action="">
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ next_url }}">
                         <div class="mb-3">
                             <label class="form-label small fw-bold">Логин</label>
-                            <input type="text" class="form-control rounded-pill" name="login" autocomplete="username">
+                            {{ form.username }}
+                            {% if form.username.errors %}<div class="text-danger small mt-1">{{ form.username.errors|join:', ' }}</div>{% endif %}
                         </div>
                         <div class="mb-4">
                             <label class="form-label small fw-bold">Пароль</label>
-                            <input type="password" class="form-control rounded-pill" name="password" autocomplete="current-password">
+                            {{ form.password }}
+                            {% if form.password.errors %}<div class="text-danger small mt-1">{{ form.password.errors|join:', ' }}</div>{% endif %}
                         </div>
                         <button type="submit" class="btn btn-custom-primary rounded-pill w-100 fw-bold mb-3 shadow-sm">Войти</button>
                         <div class="text-center small">
