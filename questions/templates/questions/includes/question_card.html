@@ -1,10 +1,24 @@
 {% load static %}
 <article class="question-card d-flex mb-4">
     <div class="question-votes pe-3 text-center align-self-start">
-        <button type="button" class="vote-btn vote-up p-0" {% if not request.user.is_authenticated %}disabled title="Войдите, чтобы голосовать"{% else %}title="Лайк"{% endif %}>▲</button>
-        <div class="vote-count fw-bold fs-5 my-0">{{ question.votes }}</div>
+        <button
+            type="button"
+            class="vote-btn vote-up p-0 js-vote-btn"
+            data-target-type="question"
+            data-target-id="{{ question.id }}"
+            data-vote-type="like"
+            {% if request.user.is_authenticated and question.id in voted_question_ids %}disabled title="вы уже голосовали"{% elif not request.user.is_authenticated %}title="Войдите, чтобы голосовать"{% else %}title="Лайк"{% endif %}
+        >▲</button>
+        <div class="vote-count fw-bold fs-5 my-0 js-rating" data-target-type="question" data-target-id="{{ question.id }}">{{ question.votes }}</div>
         <div class="small text-muted lh-1 mb-1">{{ question.votes_noun }}</div>
-        <button type="button" class="vote-btn vote-down p-0" {% if not request.user.is_authenticated %}disabled title="Войдите, чтобы голосовать"{% else %}title="Дизлайк"{% endif %}>▼</button>
+        <button
+            type="button"
+            class="vote-btn vote-down p-0 js-vote-btn"
+            data-target-type="question"
+            data-target-id="{{ question.id }}"
+            data-vote-type="dislike"
+            {% if request.user.is_authenticated and question.id in voted_question_ids %}disabled title="вы уже голосовали"{% elif not request.user.is_authenticated %}title="Войдите, чтобы голосовать"{% else %}title="Дизлайк"{% endif %}
+        >▼</button>
     </div>
     <div class="question-body flex-grow-1">
         <h3 class="h5 mb-2">
@@ -27,7 +41,11 @@
                 <span>{{ question.views_label }}</span>
             </div>
             <div class="question-author d-flex align-items-center gap-2">
-                <img src="{% static 'img/avatar-default.svg' %}" alt="" class="author-avatar rounded-circle">
+                {% if question.author.profile.avatar %}
+                    <img src="{{ question.author.profile.avatar.url }}" alt="" class="author-avatar rounded-circle">
+                {% else %}
+                    <img src="{% static 'img/avatar-default.svg' %}" alt="" class="author-avatar rounded-circle">
+                {% endif %}
                 <div class="small">
                     <a href="{% url 'profile' %}" class="text-decoration-none fw-medium">{{ question.author }}</a>
                     {% if question.author_rep %}

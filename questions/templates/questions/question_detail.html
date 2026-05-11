@@ -5,14 +5,36 @@
 {% block content %}
     <article class="question-card d-flex mb-5">
         <div class="question-votes pe-3 text-center align-self-start">
-            <button type="button" class="vote-btn" {% if not request.user.is_authenticated %}disabled title="Войдите, чтобы голосовать"{% endif %}>▲</button>
-            <div class="vote-count fw-bold fs-5 my-0">{{ question.votes }}</div>
+            <button
+                type="button"
+                class="vote-btn js-vote-btn"
+                data-target-type="question"
+                data-target-id="{{ question.id }}"
+                data-vote-type="like"
+                {% if request.user.is_authenticated and question.id in voted_question_ids %}disabled title="вы уже голосовали"{% elif not request.user.is_authenticated %}title="Войдите, чтобы голосовать"{% endif %}
+            >▲</button>
+            <div class="vote-count fw-bold fs-5 my-0 js-rating" data-target-type="question" data-target-id="{{ question.id }}">{{ question.votes }}</div>
             <div class="small text-muted lh-1 mb-1">{{ question.votes_noun }}</div>
-            <button type="button" class="vote-btn" {% if not request.user.is_authenticated %}disabled title="Войдите, чтобы голосовать"{% endif %}>▼</button>
+            <button
+                type="button"
+                class="vote-btn js-vote-btn"
+                data-target-type="question"
+                data-target-id="{{ question.id }}"
+                data-vote-type="dislike"
+                {% if request.user.is_authenticated and question.id in voted_question_ids %}disabled title="вы уже голосовали"{% elif not request.user.is_authenticated %}title="Войдите, чтобы голосовать"{% endif %}
+            >▼</button>
         </div>
         <div class="question-body flex-grow-1">
             <h1 class="h4 fw-bold mb-3">{{ question.title }}</h1>
             <p class="mb-3">{{ question.text }}</p>
+            <div class="d-flex align-items-center gap-2 mb-2">
+                {% if question.author.profile.avatar %}
+                    <img src="{{ question.author.profile.avatar.url }}" alt="" class="author-avatar rounded-circle">
+                {% else %}
+                    <img src="{% static 'img/avatar-default.svg' %}" alt="" class="author-avatar rounded-circle">
+                {% endif %}
+                <span class="small text-muted">{{ question.author.username }}</span>
+            </div>
             <p class="small text-muted mb-2">{{ question.views_label }}{% if question.author_rep %} - {{ question.author_rep }}{% endif %} - {{ question.created_at|timesince }} назад</p>
             <div class="question-tags d-flex gap-2">
                 {% for t in question.tags.all %}
@@ -25,21 +47,50 @@
     <div class="answers-list">
         <h2 class="h5 fw-bold mb-4">{{ answers_page.paginator.count }} ответов</h2>
         {% for answer in answers_page.object_list %}
-            <div id="answer-{{ answer.pk }}" class="answer-card d-flex mb-4 p-3 border-start border-2 {% if answer.is_correct %}border-success{% else %}border-secondary{% endif %} shadow-sm rounded bg-white">
+            <div id="answer-{{ answer.pk }}" class="answer-card d-flex mb-4 p-3 border-start border-2 js-answer-card {% if answer.is_correct %}border-success{% else %}border-secondary{% endif %} shadow-sm rounded bg-white" data-answer-id="{{ answer.pk }}">
                 <div class="question-votes pe-3 text-center">
-                    <button type="button" class="vote-btn" {% if not request.user.is_authenticated %}disabled title="Войдите, чтобы голосовать"{% endif %}>▲</button>
-                    <div class="vote-count fw-bold my-1">{{ answer.votes }}</div>
-                    <button type="button" class="vote-btn" {% if not request.user.is_authenticated %}disabled title="Войдите, чтобы голосовать"{% endif %}>▼</button>
+                    <button
+                        type="button"
+                        class="vote-btn js-vote-btn"
+                        data-target-type="answer"
+                        data-target-id="{{ answer.pk }}"
+                        data-vote-type="like"
+                        {% if request.user.is_authenticated and answer.pk in voted_answer_ids %}disabled title="вы уже голосовали"{% elif not request.user.is_authenticated %}title="Войдите, чтобы голосовать"{% endif %}
+                    >▲</button>
+                    <div class="vote-count fw-bold my-1 js-rating" data-target-type="answer" data-target-id="{{ answer.pk }}">{{ answer.votes }}</div>
+                    <button
+                        type="button"
+                        class="vote-btn js-vote-btn"
+                        data-target-type="answer"
+                        data-target-id="{{ answer.pk }}"
+                        data-vote-type="dislike"
+                        {% if request.user.is_authenticated and answer.pk in voted_answer_ids %}disabled title="вы уже голосовали"{% elif not request.user.is_authenticated %}title="Войдите, чтобы голосовать"{% endif %}
+                    >▼</button>
                 </div>
                 <div class="flex-grow-1">
                     <p class="mb-2">{{ answer.text }}</p>
                     <div class="d-flex justify-content-between align-items-center mt-3">
-                        {% if answer.is_correct %}
-                            <span class="form-check-label small text-success">Правильный ответ</span>
-                        {% else %}
-                            <span></span>
+                        <span class="form-check-label small js-correct-label {% if answer.is_correct %}text-success{% else %}text-muted{% endif %}" data-answer-id="{{ answer.pk }}">
+                            {% if answer.is_correct %}Правильный ответ{% else %}Обычный ответ{% endif %}
+                        </span>
+                        {% if request.user.is_authenticated and request.user.id == question.author_id %}
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-outline-success rounded-pill js-correct-btn"
+                                data-question-id="{{ question.id }}"
+                                data-answer-id="{{ answer.pk }}"
+                            >
+                                отметить правильным
+                            </button>
                         {% endif %}
-                        <span class="small text-muted">ответил {{ answer.author.username }} - {{ answer.created_at|timesince }} назад</span>
+                        <span class="small text-muted d-flex align-items-center gap-2">
+                            {% if answer.author.profile.avatar %}
+                                <img src="{{ answer.author.profile.avatar.url }}" alt="" class="author-avatar rounded-circle" style="width: 22px; height: 22px;">
+                            {% else %}
+                                <img src="{% static 'img/avatar-default.svg' %}" alt="" class="author-avatar rounded-circle" style="width: 22px; height: 22px;">
+                            {% endif %}
+                            ответил {{ answer.author.username }} - {{ answer.created_at|timesince }} назад
+                        </span>
                     </div>
                 </div>
             </div>

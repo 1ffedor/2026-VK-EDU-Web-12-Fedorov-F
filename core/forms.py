@@ -6,6 +6,8 @@ from django.core.exceptions import ValidationError
 from .models import Profile
 
 User = get_user_model()
+ALLOWED_AVATAR_EXTS = {'.jpg', '.jpeg', '.png', '.webp', '.gif'}
+MAX_AVATAR_SIZE = 2 * 1024 * 1024
 
 
 class LoginForm(forms.Form):
@@ -127,6 +129,20 @@ class ProfileForm(forms.ModelForm):
         if qs.exists():
             raise ValidationError('Этот email уже занят')
         return email
+
+    def clean_avatar(self):
+        avatar = self.cleaned_data.get('avatar')
+        if not avatar:
+            return avatar
+        filename = avatar.name.lower()
+        if '.' not in filename:
+            raise ValidationError('У файла аватарки должно быть расширение')
+        ext = f".{filename.rsplit('.', 1)[1]}"
+        if ext not in ALLOWED_AVATAR_EXTS:
+            raise ValidationError('Поддерживаются форматы: jpg, jpeg, png, webp, gif')
+        if avatar.size > MAX_AVATAR_SIZE:
+            raise ValidationError('Размер аватарки должен быть не больше 2 МБ')
+        return avatar
 
     def save(self, commit=True):
         profile = super().save(commit=False)

@@ -20,7 +20,13 @@
                             {% else %}
                                 <img src="{% static 'img/avatar-default.svg' %}" alt="" class="rounded-circle border mb-3" style="width: 140px; height: 140px; object-fit: cover;">
                             {% endif %}
-                            {{ form.avatar }}
+                            {% if request.user.profile.avatar %}
+                                <div class="small text-muted mb-2 text-break">
+                                    текущий файл:
+                                    <a href="{{ request.user.profile.avatar.url }}" target="_blank" rel="noopener">{{ request.user.profile.avatar.name }}</a>
+                                </div>
+                            {% endif %}
+                            <input type="file" name="avatar" class="form-control form-control-sm" accept="image/*">
                             {% if form.avatar.errors %}<div class="text-danger small mt-1">{{ form.avatar.errors|join:', ' }}</div>{% endif %}
                         </div>
                         <div class="col-md-8">

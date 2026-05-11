@@ -2,7 +2,7 @@ from django import forms
 from django.db import transaction
 from django.utils.text import slugify
 
-from .models import Answer, Question, Tag
+from .models import Answer, AnswerLike, Question, QuestionLike, Tag
 
 
 class AskQuestionForm(forms.ModelForm):
@@ -70,3 +70,30 @@ class AnswerForm(forms.ModelForm):
         if commit:
             answer.save()
         return answer
+
+
+class VoteForm(forms.Form):
+    target_id = forms.IntegerField(min_value=1)
+    vote_type = forms.ChoiceField(choices=(('like', 'like'), ('dislike', 'dislike')))
+
+    def clean_vote_type(self):
+        vote_type = self.cleaned_data['vote_type']
+        return QuestionLike.LIKE if vote_type == 'like' else QuestionLike.DISLIKE
+
+
+class CorrectAnswerForm(forms.Form):
+    question_id = forms.IntegerField(min_value=1)
+    answer_id = forms.IntegerField(min_value=1)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        question_id = cleaned_data.get('question_id')
+        answer_id = cleaned_data.get('answer_id')
+        if not question_id or not answer_id:
+            return cleaned_data
+        try:
+            answer = Answer.objects.select_related('question').get(pk=answer_id, question_id=question_id)
+        except Answer.DoesNotExist as e:
+            raise forms.ValidationError('Ответ не найден для этого вопроса') from e
+        cleaned_data['answer_obj'] = answer
+        return cleaned_data
