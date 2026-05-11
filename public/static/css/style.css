@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg-main: #f3f3f3;
+    --bg-card: #ffffff;
+    --text-main: #202020;
+    --text-muted: #575c61;
+    --border-color: #e6e6e6;
+    
+    --success-color: #198754;
+    --danger-color: #dc3545;
+
+    --main-font: 'Inter', sans-serif;
+
+    --universal-hover-bg: #000000;
+    --universal-hover-text: #ffffff;
+
+    /* теги */
+    --tag-bg: #e9ecef;
+    --tag-color: #495057;
+    --tag-bg-hover: var(--universal-hover-bg);
+
+    /* кнопка действия */
+    --btn-action-bg: #d81919;
+    --btn-action-hover: var(--universal-hover-bg);
+    --btn-action-text: #ffffff;
+
+    /* основная кнопка */
+    --btn-primary-bg: #0d6efd;
+    --btn-primary-hover: var(--universal-hover-bg);
+    --btn-primary-text: #ffffff;
+
+    /* табы и фильтры */
+    --tab-bg: #f8f9fa;             
+    --tab-color: #212529;          
+    --tab-hover-bg: var(--universal-hover-bg);       
+    --tab-active-bg: #0d6efd;      
+    --tab-active-color: #ffffff;   
+}
+
+body {
+    font-family: var(--main-font);
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.site-main {
+    flex: 1 0 auto;
+    padding: 2rem 0;
+}
+
+/* блоки контента */
+.question-card, .answer-card, .sidebar-block, .form-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+/* голосование */
+.question-votes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 40px;
+    flex-shrink: 0; 
+    margin-right: 1rem;
+}
+
+.vote-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    padding: 5px;
+    transition: color 0.2s;
+}
+
+.vote-btn:hover { color: var(--universal-hover-bg); }
+.vote-up.active { color: var(--success-color); }
+.vote-down.active { color: var(--danger-color); }
+
+/* аватары */
+.author-avatar, .member-avatar, .profile-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.question-body {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+/* бейджи тегов */
+.tag-badge {
+    text-decoration: none;
+    background-color: var(--tag-bg);
+    color: var(--tag-color);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    display: inline-block;
+    margin-bottom: 0.25rem;
+}
+
+.tag-badge:hover { 
+    background-color: var(--tag-bg-hover);
+    color: var(--universal-hover-text);
+}
+
+/* кастомные кнопки */
+.btn-custom-action {
+    background-color: var(--btn-action-bg);
+    border-color: var(--btn-action-bg);
+    color: var(--btn-action-text);
+    transition: all 0.2s;
+}
+
+.btn-custom-action:hover {
+    background-color: var(--btn-action-hover);
+    border-color: var(--btn-action-hover);
+    color: var(--btn-action-text);
+}
+
+.btn-custom-primary {
+    background-color: var(--btn-primary-bg);
+    border-color: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    transition: all 0.2s;
+}
+
+.btn-custom-primary:hover {
+    background-color: var(--btn-primary-hover);
+    border-color: var(--btn-primary-hover);
+    color: var(--btn-primary-text);
+}
+
+/* навигация и табы */
+.nav-custom-pill {
+    background-color: var(--tab-bg);
+    color: var(--tab-color);
+    border: 1px solid var(--border-color);
+    transition: all 0.2s;
+}
+
+.nav-custom-pill:hover {
+    background-color: var(--tab-hover-bg);
+    color: var(--universal-hover-text);
+}
+
+.nav-pills .nav-custom-pill.active, 
+.nav-custom-pill.active {
+    background-color: var(--tab-active-bg) !important;
+    color: var(--tab-active-color) !important;
+    border-color: var(--tab-active-bg) !important;
+}
+
+/* ссылки со спецэффектом */
+.hover-primary {
+    transition: color 0.2s;
+}
+
+.hover-primary:hover {
+    color: var(--universal-hover-bg) !important;
+    text-decoration: underline !important;
+}
+
+/* адаптив сайдбара */
+@media (max-width: 991px) {
+    .sidebar { margin-top: 2rem; }
+}
+
+/* пагинация */
+.pagination .page-link {
+    color: var(--text-main);
+    border-color: var(--border-color);
+    transition: all 0.2s;
+}
+
+.pagination .page-link:hover {
+    background-color: var(--universal-hover-bg);
+    color: var(--universal-hover-text);
+    border-color: var(--universal-hover-bg);
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #c7c7c7;
+    border-color: #ffffff;
+    color: #ffffff;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: var(--text-muted);
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+}
