@@ -1,31 +1,40 @@
 # Сервис: Вопрос? Ответ!
 
-## Локальный запуск
+## запуск локально
+
+1) заполните `.env.local`
+2) поднимите postgres локально
+3) запустите:
 
 ```bash
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
+python manage.py migrate
+python manage.py fill_db 100
+python manage.py createsuperuser
 python manage.py runserver
 ```
 
-В браузере: **http://127.0.0.1:8000/**
+в браузере: **http://127.0.0.1:8000/**
+админка: **http://127.0.0.1:8000/admin/**
 
-Скопируйте `.env.example` в `.env` и задайте `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS`.
+## запуск через docker
 
-## Docker Compose
+1) заполните `.env.docker` на основе `.env.docker.example`
+2) запустите:
 
 ```bash
 docker compose up --build
 ```
 
-## Страницы и маршруты
+в другом окне:
 
-- `index` - `/` - главная, новые вопросы
-- `hot` - `/hot/` - вопросы по убыванию голосов
-- `tag` - `/tag/<slug>/` - вопросы с тегом (например `/tag/python/`)
-- `question_detail` - `/question/<id>/` - страница одного вопроса и ответов
-- `ask` - `/ask/` - форма создания вопроса
-- `login` - `/login/` - форма входа
-- `signup` - `/signup/` - регистрация
-- `profile` - `/profile/` - редактирование профиля
+```bash
+docker compose exec web python manage.py migrate
+docker compose exec web python manage.py fill_db 100
+docker compose exec web python manage.py createsuperuser
+```
+
+сайт: **http://127.0.0.1:8000/**
+админка: **http://127.0.0.1:8000/admin/**
