@@ -16,14 +16,10 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-в отдельных окнах (для дз 6):
-
 ```bash
 celery -A application worker -l info
 celery -A application beat -l info --scheduler redbeat.RedBeatScheduler
 ```
-
-опционально для realtime и email:
 
 ```bash
 docker compose up centrifugo maildev
