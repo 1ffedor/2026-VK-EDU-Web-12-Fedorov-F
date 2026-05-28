@@ -2,9 +2,18 @@
 <header class="site-header bg-white py-2 border-bottom sticky-top">
     <div class="container d-flex flex-wrap align-items-center justify-content-between gap-2">
         <a href="{% url 'index' %}" class="logo text-decoration-none fs-4 fw-bold text-dark shrink-0">В? О!</a>
-        <form class="search-form d-none d-md-flex flex-grow-1 mx-md-4" action="{% url 'index' %}" method="get">
-            <input class="form-control rounded-pill" type="search" name="q" placeholder="Искать вопрос..." aria-label="Поиск">
-        </form>
+        <div class="search-form-wrapper position-relative d-none d-md-flex flex-grow-1 mx-md-4">
+            <input
+                class="form-control rounded-pill js-search-input"
+                type="search"
+                name="q"
+                placeholder="Искать вопрос..."
+                aria-label="Поиск"
+                autocomplete="off"
+                data-suggestions-url="{% url 'search_suggestions' %}"
+            >
+            <ul class="search-suggestions list-unstyled mb-0 js-search-suggestions" hidden></ul>
+        </div>
         {% if request.user.is_authenticated %}
             <div class="user-block d-flex align-items-center gap-3">
                 <a href="{% url 'profile' %}" class="d-flex align-items-center gap-2 text-decoration-none text-dark">

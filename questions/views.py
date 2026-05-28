@@ -1,13 +1,17 @@
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Sum
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.http import urlencode
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_GET, require_POST
 
+from .centrifugo import make_connection_token, question_channel
 from .forms import AnswerForm, AskQuestionForm, CorrectAnswerForm, VoteForm
 from .models import Answer, AnswerLike, Question, QuestionLike, Tag
+from .search import search_questions
+from .tasks import notify_new_answer
 from .utils import paginate
 
 
@@ -68,6 +72,7 @@ def question_detail(request, pk):
         answer_form = AnswerForm(request.POST)
         if answer_form.is_valid():
             answer = answer_form.save(author=request.user, question=question)
+            notify_new_answer.delay(answer.pk)
             answer_pos = Answer.objects.filter(question=question).filter(
                 Q(created_at__lt=answer.created_at) | Q(created_at=answer.created_at, pk__lte=answer.pk)
             ).count()
@@ -84,17 +89,15 @@ def question_detail(request, pk):
         voted_answer_ids = set(
             AnswerLike.objects.filter(user=request.user, answer_id__in=answer_ids).values_list('answer_id', flat=True)
         )
-    return render(
-        request,
-        'questions/question_detail.html',
-        {
-            'question': question,
-            'answers_page': answers_page,
-            'answer_form': answer_form,
-            'voted_question_ids': voted_question_ids,
-            'voted_answer_ids': voted_answer_ids,
-        },
-    )
+    context = {
+        'question': question,
+        'answers_page': answers_page,
+        'answer_form': answer_form,
+        'voted_question_ids': voted_question_ids,
+        'voted_answer_ids': voted_answer_ids,
+        **_centrifugo_page_context(question),
+    }
+    return render(request, 'questions/question_detail.html', context)
 
 
 @login_required
@@ -155,3 +158,55 @@ def mark_correct_answer(request):
     Answer.objects.filter(question=question, is_correct=True).update(is_correct=False)
     Answer.objects.filter(pk=answer.pk).update(is_correct=True)
     return JsonResponse({'ok': True, 'question_id': question.pk, 'answer_id': answer.pk})
+
+
+@require_GET
+def search_suggestions(request):
+    query = request.GET.get('q', '')
+    questions = search_questions(query)
+    return JsonResponse(
+        {
+            'results': [
+                {'id': q.pk, 'title': q.title, 'url': q.get_absolute_url()}
+                for q in questions
+            ]
+        }
+    )
+
+
+@require_GET
+def centrifugo_token(request):
+    user_id = request.user.pk if request.user.is_authenticated else None
+    return JsonResponse({'token': make_connection_token(user_id)})
+
+
+@require_GET
+def answer_card(request, pk, answer_id):
+    question = get_object_or_404(Question, pk=pk)
+    answer = get_object_or_404(
+        Answer.objects.get_queryset().with_related().with_stats(),
+        pk=answer_id,
+        question=question,
+    )
+    voted_answer_ids = set()
+    if request.user.is_authenticated:
+        if AnswerLike.objects.filter(user=request.user, answer=answer).exists():
+            voted_answer_ids.add(answer.pk)
+    html = render(
+        request,
+        'questions/includes/answer_card.html',
+        {
+            'question': question,
+            'answer': answer,
+            'voted_answer_ids': voted_answer_ids,
+        },
+    ).content.decode('utf-8')
+    return JsonResponse({'ok': True, 'html': html, 'answer_id': answer.pk})
+
+
+def _centrifugo_page_context(question):
+    return {
+        'centrifugo_ws_url': settings.CENTRIFUGO_WS_URL,
+        'centrifugo_channel': question_channel(question.pk),
+        'centrifugo_token_url': reverse('centrifugo_token'),
+    }

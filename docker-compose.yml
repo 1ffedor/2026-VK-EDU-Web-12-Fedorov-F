@@ -3,6 +3,7 @@ services:
     build: .
     depends_on:
       - db
+      - redis
     ports:
       - "8000:8000"
     volumes:
@@ -11,6 +12,7 @@ services:
     env_file:
       - .env.docker
     command: python manage.py runserver 0.0.0.0:8000
+
   db:
     image: postgres:16-alpine
     restart: unless-stopped
@@ -22,6 +24,51 @@ services:
       POSTGRES_PASSWORD: vk_password
     volumes:
       - pg_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  celery:
+    build: .
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - .:/app
+      - media_data:/app/media
+    env_file:
+      - .env.docker
+    command: celery -A application worker -l info
+
+  celerybeat:
+    build: .
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - .:/app
+    env_file:
+      - .env.docker
+    command: celery -A application beat -l info --scheduler redbeat.RedBeatScheduler
+
+  centrifugo:
+    image: centrifugo/centrifugo:v6
+    restart: unless-stopped
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./centrifugo/config.json:/centrifugo/config.json
+    command: centrifugo --config=/centrifugo/config.json
+
+  maildev:
+    image: maildev/maildev
+    restart: unless-stopped
+    ports:
+      - "1080:1080"
+      - "1025:1025"
 
 volumes:
   media_data:

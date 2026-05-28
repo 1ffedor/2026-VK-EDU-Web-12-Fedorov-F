@@ -44,59 +44,20 @@
         </div>
     </article>
     <hr class="my-4">
-    <div class="answers-list">
-        <h2 class="h5 fw-bold mb-4">{{ answers_page.paginator.count }} ответов</h2>
-        {% for answer in answers_page.object_list %}
-            <div id="answer-{{ answer.pk }}" class="answer-card d-flex mb-4 p-3 border-start border-2 js-answer-card {% if answer.is_correct %}border-success{% else %}border-secondary{% endif %} shadow-sm rounded bg-white" data-answer-id="{{ answer.pk }}">
-                <div class="question-votes pe-3 text-center">
-                    <button
-                        type="button"
-                        class="vote-btn js-vote-btn"
-                        data-target-type="answer"
-                        data-target-id="{{ answer.pk }}"
-                        data-vote-type="like"
-                        {% if request.user.is_authenticated and answer.pk in voted_answer_ids %}disabled title="вы уже голосовали"{% elif not request.user.is_authenticated %}title="Войдите, чтобы голосовать"{% endif %}
-                    >▲</button>
-                    <div class="vote-count fw-bold my-1 js-rating" data-target-type="answer" data-target-id="{{ answer.pk }}">{{ answer.votes }}</div>
-                    <button
-                        type="button"
-                        class="vote-btn js-vote-btn"
-                        data-target-type="answer"
-                        data-target-id="{{ answer.pk }}"
-                        data-vote-type="dislike"
-                        {% if request.user.is_authenticated and answer.pk in voted_answer_ids %}disabled title="вы уже голосовали"{% elif not request.user.is_authenticated %}title="Войдите, чтобы голосовать"{% endif %}
-                    >▼</button>
-                </div>
-                <div class="flex-grow-1">
-                    <p class="mb-2">{{ answer.text }}</p>
-                    <div class="d-flex justify-content-between align-items-center mt-3">
-                        <span class="form-check-label small js-correct-label {% if answer.is_correct %}text-success{% else %}text-muted{% endif %}" data-answer-id="{{ answer.pk }}">
-                            {% if answer.is_correct %}Правильный ответ{% else %}Обычный ответ{% endif %}
-                        </span>
-                        {% if request.user.is_authenticated and request.user.id == question.author_id %}
-                            <button
-                                type="button"
-                                class="btn btn-sm btn-outline-success rounded-pill js-correct-btn"
-                                data-question-id="{{ question.id }}"
-                                data-answer-id="{{ answer.pk }}"
-                            >
-                                отметить правильным
-                            </button>
-                        {% endif %}
-                        <span class="small text-muted d-flex align-items-center gap-2">
-                            {% if answer.author.profile.avatar %}
-                                <img src="{{ answer.author.profile.avatar.url }}" alt="" class="author-avatar rounded-circle" style="width: 22px; height: 22px;">
-                            {% else %}
-                                <img src="{% static 'img/avatar-default.svg' %}" alt="" class="author-avatar rounded-circle" style="width: 22px; height: 22px;">
-                            {% endif %}
-                            ответил {{ answer.author.username }} - {{ answer.created_at|timesince }} назад
-                        </span>
-                    </div>
-                </div>
-            </div>
-        {% empty %}
-            <p class="text-muted">Пока нет ни одного ответа к этому вопросу</p>
-        {% endfor %}
+    <div class="answers-list" id="answers-list"
+         data-question-id="{{ question.id }}"
+         data-current-page="{{ answers_page.number }}"
+         data-total-pages="{{ answers_page.paginator.num_pages }}"
+         data-answers-count="{{ answers_page.paginator.count }}"
+         data-card-url-template="{% url 'answer_card' pk=question.id answer_id=0 %}">
+        <h2 class="h5 fw-bold mb-4 js-answers-title">{{ answers_page.paginator.count }} ответов</h2>
+        <div class="js-answers-items">
+            {% for answer in answers_page.object_list %}
+                {% include 'questions/includes/answer_card.html' %}
+            {% empty %}
+                <p class="text-muted js-answers-empty">Пока нет ни одного ответа к этому вопросу</p>
+            {% endfor %}
+        </div>
     </div>
     {% include 'includes/pagination.html' with page=answers_page %}
     <div class="mt-5">
@@ -116,4 +77,19 @@
         </form>
     </div>
     <p class="mt-4"><a href="{% url 'index' %}" class="text-decoration-none">← К списку вопросов</a></p>
+{% endblock %}
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/centrifuge@5.2.2/dist/centrifuge.js"></script>
+<script>
+  window.questionRealtimeConfig = {
+    wsUrl: '{{ centrifugo_ws_url|escapejs }}',
+    channel: '{{ centrifugo_channel|escapejs }}',
+    tokenUrl: '{{ centrifugo_token_url|escapejs }}',
+    questionId: {{ question.id }},
+    currentPage: {{ answers_page.number }},
+    totalPages: {{ answers_page.paginator.num_pages }},
+    cardUrlTemplate: '{% url "answer_card" pk=question.id answer_id=0 %}',
+  };
+</script>
+<script src="{% static 'js/question_realtime.js' %}"></script>
 {% endblock %}

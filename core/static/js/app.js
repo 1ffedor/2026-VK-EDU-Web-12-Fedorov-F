@@ -100,4 +100,75 @@
       handleCorrect(correctBtn);
     }
   });
+
+  const initSearchSuggestions = () => {
+    const input = document.querySelector('.js-search-input');
+    const list = document.querySelector('.js-search-suggestions');
+    if (!input || !list) {
+      return;
+    }
+    const url = input.dataset.suggestionsUrl;
+    let timer = null;
+    let requestId = 0;
+
+    const hideSuggestions = () => {
+      list.hidden = true;
+      list.innerHTML = '';
+    };
+
+    const showSuggestions = (items) => {
+      list.innerHTML = '';
+      if (!items.length) {
+        hideSuggestions();
+        return;
+      }
+      items.forEach((item) => {
+        const li = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = item.url;
+        link.textContent = item.title;
+        link.className = 'search-suggestions__item';
+        li.appendChild(link);
+        list.appendChild(li);
+      });
+      list.hidden = false;
+    };
+
+    const fetchSuggestions = async (query) => {
+      const currentId = ++requestId;
+      const response = await fetch(`${url}?q=${encodeURIComponent(query)}`, { credentials: 'same-origin' });
+      const json = await response.json().catch(() => ({ results: [] }));
+      if (currentId !== requestId) {
+        return;
+      }
+      showSuggestions(json.results || []);
+    };
+
+    input.addEventListener('input', () => {
+      clearTimeout(timer);
+      const query = input.value.trim();
+      if (query.length < 2) {
+        requestId += 1;
+        hideSuggestions();
+        return;
+      }
+      timer = setTimeout(() => {
+        fetchSuggestions(query);
+      }, 350);
+    });
+
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        hideSuggestions();
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!event.target.closest('.search-form-wrapper')) {
+        hideSuggestions();
+      }
+    });
+  };
+
+  initSearchSuggestions();
 })();
